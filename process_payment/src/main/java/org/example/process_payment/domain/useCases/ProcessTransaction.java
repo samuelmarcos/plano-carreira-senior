@@ -1,7 +1,7 @@
-package org.example.process_payment.domain.UseCases;
+package org.example.process_payment.domain.useCases;
 
 import org.example.process_payment.domain.contracts.CashIn;
-import org.example.process_payment.domain.contracts.Repos.SaveTransaction;
+import org.example.process_payment.domain.contracts.repos.SaveTransaction;
 import org.example.process_payment.domain.entities.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

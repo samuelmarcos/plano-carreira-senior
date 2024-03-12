@@ -1,4 +1,4 @@
-package org.example.process_payment.domain.contracts.Repos;
+package org.example.process_payment.domain.contracts.repos;
 
 import org.example.process_payment.domain.entities.Transaction;
 import org.springframework.stereotype.Repository;

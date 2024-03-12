@@ -1,6 +1,6 @@
-package org.example.process_payment.domain.UseCases;
+package org.example.process_payment.domain.useCases;
 
-import org.example.process_payment.domain.contracts.Repos.SaveTransaction;
+import org.example.process_payment.domain.contracts.repos.SaveTransaction;
 import org.example.process_payment.domain.entities.Transaction;
 import org.junit.Before;
 import org.junit.Test;
