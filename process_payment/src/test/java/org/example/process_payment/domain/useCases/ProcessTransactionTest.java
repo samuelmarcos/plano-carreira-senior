@@ -13,7 +13,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertThrows;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class ProcessTransactionTest {
@@ -38,9 +39,16 @@ public class ProcessTransactionTest {
     }
 
     @Test
-    public void shoudCallPaymentStrategyWithCorrectValues() {
+    public void shoudCallPaymentWithCorrectValues() {
         when(saveTransaction.save(transaction)).thenReturn(transaction);
         Transaction transactionResult = processTransaction.process(transaction);
         assertEquals(transaction, transactionResult);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void shoudRethrowIfPaymentThrows() {
+        when(saveTransaction.save(transaction)).thenThrow(RuntimeException.class);
+        processTransaction.process(transaction);
+        assertThrows(RuntimeException.class, ()-> processTransaction.process(transaction));
     }
 }
