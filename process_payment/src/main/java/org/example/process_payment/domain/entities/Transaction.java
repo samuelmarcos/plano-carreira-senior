@@ -16,7 +16,7 @@ public class Transaction {
         this.value = value;
         this.description = description;
         this.method = method;
-        this.number = number;
+        this.number = this.parseCarnNumber(number);
         this.carrier = carrier;
         this.date = date;
         this.verificationCode = verificationCode;
@@ -75,5 +75,11 @@ public class Transaction {
 
     public void setVerificationCode(Integer verificationCode) {
         this.verificationCode = verificationCode;
+    }
+
+    public Integer parseCarnNumber(Integer number) {
+        String parsedNumber = String.valueOf(number);
+        String fourLastNumbers = parsedNumber.substring(parsedNumber.length() -4);
+        return Integer.valueOf(fourLastNumbers);
     }
 }
