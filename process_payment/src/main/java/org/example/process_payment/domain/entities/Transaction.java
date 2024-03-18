@@ -1,8 +1,15 @@
 package org.example.process_payment.domain.entities;
 
-import java.sql.Timestamp;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+import java.sql.Timestamp;
+@Entity
 public class Transaction {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer value;
     private String description;
     private String method;
@@ -81,5 +88,18 @@ public class Transaction {
         String parsedNumber = String.valueOf(number);
         String fourLastNumbers = parsedNumber.substring(parsedNumber.length() -4);
         return Integer.valueOf(fourLastNumbers);
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "value=" + value +
+                ", description='" + description + '\'' +
+                ", method='" + method + '\'' +
+                ", number=" + number +
+                ", carrier='" + carrier + '\'' +
+                ", date=" + date +
+                ", verificationCode=" + verificationCode +
+                '}';
     }
 }
