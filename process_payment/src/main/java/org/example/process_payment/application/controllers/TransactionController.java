@@ -12,13 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TransactionController {
-
+    private ProcessTransaction processTransaction;
     @Autowired
-    ProcessTransaction processTransaction;
+    public TransactionController(ProcessTransaction processTransaction) {
+        this.processTransaction = processTransaction;
+    }
 
     @PostMapping("/process-transaction")
     ResponseEntity<Object> handle(@RequestBody Transaction transaction) {
         Transaction transactionResult = processTransaction.process(transaction);
-        return ReponseHandler.generateResponse(transactionResult, HttpStatus.OK, "");
+        return ReponseHandler.generateResponse(transactionResult, HttpStatus.OK, "Transaction stored successfully");
     }
 }
