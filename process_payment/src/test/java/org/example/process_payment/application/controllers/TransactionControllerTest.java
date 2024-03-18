@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -43,5 +44,12 @@ public class TransactionControllerTest {
         ResponseEntity<Object> response = ReponseHandler.generateResponse(transaction, HttpStatus.OK, "Transaction stored successfully");
         ResponseEntity<Object> controllerResponse = controller.handle(transaction);
         assertEquals(response, controllerResponse);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void shoudRethrowIfPaymentThrows() {
+        when(processTransaction.process(transaction)).thenThrow(RuntimeException.class);
+        processTransaction.process(transaction);
+        assertThrows(RuntimeException.class, ()-> processTransaction.process(transaction));
     }
 }
