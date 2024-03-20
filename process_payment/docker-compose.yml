@@ -20,6 +20,5 @@ services:
       - POSTGRES_DB=$YOUR_DB_NAME
     ports:
       - "5432:5432"
-      -
 volumes:
   db_data:

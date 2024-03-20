@@ -1,20 +1,20 @@
 package org.example.process_payment.domain.useCases;
 
 import org.example.process_payment.domain.contracts.CashIn;
-import org.example.process_payment.domain.contracts.repos.SaveTransaction;
 import org.example.process_payment.domain.entities.Transaction;
+import org.example.process_payment.infra.Repositories.Contracts.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProcessTransaction implements CashIn {
-    private SaveTransaction saveTransaction;
+    private TransactionRepository repository;
     @Autowired
-    public ProcessTransaction(SaveTransaction saveTransaction) {
-        this.saveTransaction = saveTransaction;
+    public ProcessTransaction(TransactionRepository repository) {
+        this.repository = repository;
     }
     @Override
     public Transaction process(Transaction transaction) {
-        return this.saveTransaction.save(transaction);
+        return this.repository.save(transaction);
     }
 }

@@ -34,7 +34,7 @@ public class TransactionControllerTest {
     }
     @BeforeEach
     public void init() {
-        transaction = new Transaction(100, "any_trasaction", "debit_card", 8868, "any_person", date, 111);
+        transaction = new Transaction(null,100, "any_trasaction", "debit_card", 8868, "any_person", date, 111);
     }
 
 

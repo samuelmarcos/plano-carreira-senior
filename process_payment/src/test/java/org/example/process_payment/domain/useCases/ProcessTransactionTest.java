@@ -1,7 +1,8 @@
 package org.example.process_payment.domain.useCases;
 
-import org.example.process_payment.domain.contracts.repos.SaveTransaction;
+
 import org.example.process_payment.domain.entities.Transaction;
+import org.example.process_payment.infra.Repositories.Contracts.TransactionRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,7 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class ProcessTransactionTest {
     @Mock
-    private static SaveTransaction saveTransaction;
+    private static TransactionRepository repository;
 
     private Transaction transaction;
 
@@ -30,24 +31,24 @@ public class ProcessTransactionTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        processTransaction = new ProcessTransaction(saveTransaction);
+        processTransaction = new ProcessTransaction(repository);
     }
 
     @BeforeEach
     public void init() {
-        transaction = new Transaction(100, "any_trasaction", "debit_card", 8868, "any_person", date, 111);
+        transaction = new Transaction(null,100, "any_trasaction", "debit_card", 8868, "any_person", date, 111);
     }
 
     @Test
     public void shoudCallPaymentWithCorrectValues() {
-        when(saveTransaction.save(transaction)).thenReturn(transaction);
+        when(repository.save(transaction)).thenReturn(transaction);
         Transaction transactionResult = processTransaction.process(transaction);
         assertEquals(transaction, transactionResult);
     }
 
     @Test(expected = RuntimeException.class)
     public void shoudRethrowIfPaymentThrows() {
-        when(saveTransaction.save(transaction)).thenThrow(RuntimeException.class);
+        when(repository.save(transaction)).thenThrow(RuntimeException.class);
         processTransaction.process(transaction);
         assertThrows(RuntimeException.class, ()-> processTransaction.process(transaction));
     }
