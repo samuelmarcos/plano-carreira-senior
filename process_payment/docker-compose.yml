@@ -7,17 +7,17 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - POSTGRES_USER=$YOUR_USERNAME
-      - POSTGRES_PASSWORD=$YOUR_PASSWORD
-      - POSTGRES_DB=$YOUR_DB_NAME
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234567
+      - POSTGRES_DB=card-transaction
   db:
     image: postgres
     volumes:
       - db_data:/var/lib/postgres
     environment:
-      - POSTGRES_USER=$YOUR_USERNAME
-      - POSTGRES_PASSWORD=$YOUR_PASSWORD
-      - POSTGRES_DB=$YOUR_DB_NAME
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234567
+      - POSTGRES_DB=card-transaction
     ports:
       - "5432:5432"
 volumes:
