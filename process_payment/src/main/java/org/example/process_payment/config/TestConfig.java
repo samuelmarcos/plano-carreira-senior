@@ -1,4 +1,4 @@
-package org.example.process_payment.Config;
+package org.example.process_payment.config;
 
 import org.example.process_payment.domain.entities.Transaction;
 import org.example.process_payment.infra.Repositories.Contracts.TransactionRepository;
