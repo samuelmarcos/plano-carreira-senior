@@ -1,8 +1,9 @@
 package org.example.process_payment.application.controllers;
 
 import org.example.process_payment.application.presenters.ReponseHandler;
+import org.example.process_payment.domain.contracts.ListTransactions;
 import org.example.process_payment.domain.entities.Transaction;
-import org.example.process_payment.domain.useCases.ProcessTransaction;
+import org.example.process_payment.domain.useCases.CardTransaction;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,14 +24,16 @@ import static org.mockito.Mockito.when;
 public class TransactionControllerTest {
     private static TransactionController controller;
     private Transaction transaction;
+
+    private ListTransactions listTransactions;
     @Mock
-    ProcessTransaction processTransaction;
+    CardTransaction cardTransaction;
     private Timestamp date = new Timestamp(new Date(2024, 03, 05, 0, 0, 0).getTime());
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        controller = new TransactionController(processTransaction);
+        controller = new TransactionController(cardTransaction, listTransactions);
     }
     @BeforeEach
     public void init() {
@@ -40,16 +43,17 @@ public class TransactionControllerTest {
 
     @Test
     public void souldCallProcessTransactionUseCase() {
-        when(processTransaction.process(transaction)).thenReturn(transaction);
-        ResponseEntity<Object> response = ReponseHandler.generateResponse(transaction, HttpStatus.OK, "Transaction stored successfully");
-        ResponseEntity<Object> controllerResponse = controller.handle(transaction);
-        assertEquals(response, controllerResponse);
+        when(cardTransaction.process(transaction)).thenReturn(transaction);
+        ResponseEntity<Object> response = ReponseHandler.generateResponse(HttpStatus.OK, "Transaction stored successfully", transaction);
+        ResponseEntity<Object> controllerResponse = controller.process(transaction);
+        assertEquals(response.getStatusCode(), controllerResponse.getStatusCode());
+        assertEquals(response.getBody(), controllerResponse.getBody());
     }
 
     @Test(expected = RuntimeException.class)
     public void shoudRethrowIfPaymentThrows() {
-        when(processTransaction.process(transaction)).thenThrow(RuntimeException.class);
-        processTransaction.process(transaction);
-        assertThrows(RuntimeException.class, ()-> processTransaction.process(transaction));
+        when(cardTransaction.process(transaction)).thenThrow(RuntimeException.class);
+        cardTransaction.process(transaction);
+        assertThrows(RuntimeException.class, ()-> cardTransaction.process(transaction));
     }
 }

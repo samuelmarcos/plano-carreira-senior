@@ -1,7 +1,7 @@
 package org.example.process_payment.config;
 
 import org.example.process_payment.domain.entities.Transaction;
-import org.example.process_payment.infra.Repositories.Contracts.TransactionRepository;
+import org.example.process_payment.infra.Repositories.contracts.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
