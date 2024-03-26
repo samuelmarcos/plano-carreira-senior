@@ -1,11 +1,15 @@
-#This image is based on the popular Alpine Linux project, available in the alpine official image.
-#Alpine Linux is much smaller than most distribution base images (~5MB), and thus leads to much slimmer images in general.
+#criar um ambiente comn jdk e maven
+#compilar aplicação
+#executar comando para rodar app
+
+FROM maven:3.8.7-openjdk-18-slim as build
+RUN mkdir -p usr/src/app
+WORKDIR /usr/src/app
+ADD . /usr/src/app
+RUN mvn package -DskipTests
+
 FROM amazoncorretto:17-alpine-jdk
-
-ARG JAR_FILE=target/*.jar
-
-COPY ${JAR_FILE} application.jar
-
-CMD apt-get update -y
-
-ENTRYPOINT ["java", "-Xmx2048M", "-jar", "/application.jar"]
+RUN mkdir -p usr/src/app
+WORKDIR usr/src/app
+COPY --from=build /usr/src/app/target/*.jar app.jar
+CMD ["java", "-jar", "app.jar"]

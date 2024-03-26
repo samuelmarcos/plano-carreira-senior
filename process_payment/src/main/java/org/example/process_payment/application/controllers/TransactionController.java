@@ -7,12 +7,10 @@ import org.example.process_payment.domain.useCases.CardTransaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/card")
 public class TransactionController {
     private CardTransaction cardTransaction;
 
@@ -23,7 +21,7 @@ public class TransactionController {
         this.list = listTransactions;
     }
 
-    @PostMapping("/process")
+    @PostMapping("/process-transaction")
     ResponseEntity<Object> process(@RequestBody Transaction transaction) {
         Transaction transactionResult = cardTransaction.process(transaction);
         return ReponseHandler.generateResponse(HttpStatus.OK, "Transaction stored successfully", transactionResult);
@@ -32,6 +30,6 @@ public class TransactionController {
     @GetMapping("/list-transactions")
     ResponseEntity<Object>list() {
         Transaction[] transactions = list.list().toArray(new Transaction[0]);
-        return ReponseHandler.generateResponse(HttpStatus.OK, "Transaction stored successfully", (Object) transactions);
+        return ReponseHandler.generateResponse(HttpStatus.OK, "Transactions recovered successfully", (Object) transactions);
     }
 }
